@@ -1,0 +1,118 @@
+import React, { useState, useEffect } from 'react';
+import { ShoppingCart, User, Search, Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { cn } from '@/src/lib/utils';
+import { useCart } from '@/src/context/CartContext';
+
+export default function Header() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { totalItems } = useCart();
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navLinks = [
+    { name: 'Home', href: '/' },
+    { name: 'Shop', href: '/shop' },
+    { name: 'Jackets', href: '/shop/Jackets' },
+    { name: 'Shoes', href: '/shop/Shoes' },
+    { name: 'Journal', href: '/blog' },
+  ];
+
+  return (
+    <header
+      className={cn(
+        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+        isScrolled ? 'bg-white/90 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'
+      )}
+    >
+      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2" aria-label="LuxLeather Home">
+          <div className="w-10 h-10 bg-amber-800 rounded-lg flex items-center justify-center text-amber-100 font-bold text-xl shadow-md border border-amber-900/20">
+            L
+          </div>
+          <span className={cn(
+            "text-xl font-bold tracking-tight transition-colors hidden sm:block",
+            isScrolled ? "text-slate-900" : "text-white"
+          )}>LuxLeather</span>
+        </Link>
+
+        {/* Desktop Nav */}
+        <div className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              to={link.href}
+              className={cn(
+                "text-sm font-semibold transition-colors uppercase tracking-wider",
+                isScrolled ? "text-slate-700 hover:text-amber-800" : "text-slate-200 hover:text-amber-400"
+              )}
+            >
+              {link.name}
+            </Link>
+          ))}
+        </div>
+
+        {/* Icons */}
+        <div className="flex items-center gap-4">
+          <button className={cn(
+            "p-2 transition-colors",
+            isScrolled ? "text-slate-700 hover:text-amber-800" : "text-slate-200 hover:text-amber-400"
+          )} aria-label="Search">
+            <Search size={20} />
+          </button>
+          <Link to="/account" className={cn(
+            "p-2 transition-colors",
+            isScrolled ? "text-slate-700 hover:text-amber-800" : "text-slate-200 hover:text-amber-400"
+          )} aria-label="Account">
+            <User size={20} />
+          </Link>
+          <Link to="/cart" className={cn(
+            "p-2 transition-colors relative",
+            isScrolled ? "text-slate-700 hover:text-amber-800" : "text-slate-200 hover:text-amber-400"
+          )} aria-label="Cart">
+            <ShoppingCart size={20} />
+            {totalItems > 0 && (
+              <span className="absolute top-0 right-0 w-4 h-4 bg-amber-800 text-amber-100 text-[10px] flex items-center justify-center rounded-full">
+                {totalItems}
+              </span>
+            )}
+          </Link>
+          <button
+            className={cn(
+              "md:hidden p-2 transition-colors",
+              isScrolled ? "text-slate-600" : "text-white"
+            )}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle Menu"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-white border-t border-slate-100 py-4 px-4 shadow-xl animate-in slide-in-from-top duration-300">
+          <div className="flex flex-col gap-4">
+            {navLinks.map((link) => (
+              <Link
+                key={link.name}
+                to={link.href}
+                className="text-lg font-medium text-slate-900 py-2 border-b border-slate-50"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+    </header>
+  );
+}
