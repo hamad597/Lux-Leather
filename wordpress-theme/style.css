@@ -1,0 +1,17 @@
+/*
+Theme Name: Lux Leather Theme
+Theme URI: 
+Author: Developer
+Author URI: 
+Description: A fully customizable WordPress theme for Lux Leather, converted from a React Vite template with Tailwind CSS integration.
+Version: 1.0.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: luxleather
+Tags: e-commerce, custom-colors, custom-menu, featured-images, full-width-template
+*/
+
+/*
+ * Note: Actual CSS is compiled from Tailwind and placed into `assets/css/style.css` 
+ * and then enqueued in functions.php. Do not put utility classes here.
+ */

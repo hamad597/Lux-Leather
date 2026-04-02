@@ -1,0 +1,12 @@
+{
+  "name": "luxleather-theme",
+  "version": "1.0.0",
+  "description": "Tailwind build setup for LuxLeather WordPress Theme",
+  "scripts": {
+    "dev": "tailwindcss -i ./assets/css/input.css -o ./assets/css/tailwind.css --watch",
+    "build": "tailwindcss -i ./assets/css/input.css -o ./assets/css/tailwind.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}
