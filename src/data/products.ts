@@ -1,74 +1,37 @@
-export interface Product {
-  id: number;
-  name: string;
-  price: number;
-  rating: number;
-  reviews: number;
-  image: string;
-  category: 'Jackets' | 'Shoes' | 'Belts' | 'Bags' | 'Accessories';
-  tag?: string;
-  description: string;
-}
-
-export const products: Product[] = [
-  // Jackets (10)
-  ...Array.from({ length: 10 }).map((_, i) => ({
-    id: 100 + i,
-    name: `Premium Leather Jacket ${i + 1}`,
-    price: 299.99 + i * 20,
-    rating: 4.5 + (i % 5) * 0.1,
-    reviews: 45 + i * 3,
-    image: `https://picsum.photos/seed/luxury-jacket-${i+1}/600/800`,
-    category: 'Jackets' as const,
-    tag: i === 0 ? 'Best Seller' : i === 1 ? 'New' : undefined,
-    description: 'Handcrafted from the finest full-grain leather, this jacket offers a perfect blend of durability and timeless style.'
-  })),
-  // Shoes (10)
-  ...Array.from({ length: 10 }).map((_, i) => ({
-    id: 200 + i,
-    name: `Classic Leather Shoe ${i + 1}`,
-    price: 149.99 + i * 15,
-    rating: 4.6 + (i % 4) * 0.1,
-    reviews: 32 + i * 4,
-    image: `https://picsum.photos/seed/luxury-shoe-${i+1}/600/800`,
-    category: 'Shoes' as const,
-    tag: i === 2 ? 'Popular' : undefined,
-    description: 'Elegant leather shoes designed for both comfort and professional style. Made with premium calfskin leather.'
-  })),
-  // Belts (10)
-  ...Array.from({ length: 10 }).map((_, i) => ({
-    id: 300 + i,
-    name: `Handmade Leather Belt ${i + 1}`,
-    price: 49.99 + i * 5,
-    rating: 4.8 + (i % 3) * 0.1,
-    reviews: 120 + i * 10,
-    image: `https://picsum.photos/seed/luxury-belt-${i+1}/600/800`,
-    category: 'Belts' as const,
-    tag: i === 0 ? 'Top Rated' : undefined,
-    description: 'A durable and stylish leather belt, handcrafted to last a lifetime. Features a solid brass buckle.'
-  })),
-  // Bags (10)
-  ...Array.from({ length: 10 }).map((_, i) => ({
-    id: 400 + i,
-    name: `Luxury Leather Bag ${i + 1}`,
-    price: 199.99 + i * 25,
-    rating: 4.7 + (i % 4) * 0.1,
-    reviews: 65 + i * 5,
-    image: `https://picsum.photos/seed/luxury-bag-${i+1}/600/800`,
-    category: 'Bags' as const,
-    tag: i === 1 ? 'New Arrival' : undefined,
-    description: 'Spacious and sophisticated leather bag, perfect for travel or daily use. Crafted from premium top-grain leather.'
-  })),
-  // Accessories (10)
-  ...Array.from({ length: 10 }).map((_, i) => ({
-    id: 500 + i,
-    name: `Leather Wallet ${i + 1}`,
-    price: 39.99 + i * 10,
-    rating: 4.9,
-    reviews: 210 + i * 2,
-    image: `https://picsum.photos/seed/luxury-accessory-${i+1}/600/800`,
-    category: 'Accessories' as const,
-    tag: i === 0 ? 'Essential' : undefined,
-    description: 'Minimalist leather wallet designed for the modern individual. Slim profile with ample card storage.'
-  }))
+export const products = [
+  {
+    id: 1,
+    name: 'Leather Jacket',
+    image: 'https://images.unsplash.com/photo-1541908254-6b4f3d5eb7c7',
+    description: 'Stylish leather jacket for all occasions.',
+    price: 199.99,
+  },
+  {
+    id: 2,
+    name: 'Leather Shoes',
+    image: 'https://images.unsplash.com/photo-1511918984144-2f0b4997a5d5',
+    description: 'Elegant leather shoes perfect for formal events.',
+    price: 129.99,
+  },
+  {
+    id: 3,
+    name: 'Leather Belt',
+    image: 'https://images.unsplash.com/photo-1505566288250-5f65c2d24f85',
+    description: 'High-quality leather belt.',
+    price: 49.99,
+  },
+  {
+    id: 4,
+    name: 'Leather Bag',
+    image: 'https://images.unsplash.com/photo-1552083072-cd1587e9687e',
+    description: 'Spacious leather bag for daily use.',
+    price: 89.99,
+  },
+  {
+    id: 5,
+    name: 'Leather Accessories',
+    image: 'https://images.unsplash.com/photo-1560570904-8e09255b3c67',
+    description: 'Stylish accessories to complement your look.',
+    price: 39.99,
+  }
 ];
