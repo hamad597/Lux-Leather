@@ -1,17 +1,64 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'motion/react';
-import { Trash2, ShoppingBag, ArrowRight, ChevronLeft, CreditCard, ShieldCheck, Truck } from 'lucide-react';
+import { Trash2, ShoppingBag, ArrowRight, ChevronLeft, CreditCard, ShieldCheck, Truck, Tag, CheckCircle } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '@/src/context/CartContext';
+import { useAdmin, Promo } from '@/src/context/AdminContext';
 
 export default function Cart() {
   const { cart, removeFromCart, clearCart, totalPrice, totalItems } = useCart();
+  const { promos, addOrder } = useAdmin();
   const navigate = useNavigate();
 
-  const shipping = totalItems > 0 ? (totalPrice > 150 ? 0 : 15) : 0;
-  const tax = totalPrice * 0.08;
-  const finalTotal = totalPrice + shipping + tax;
+  const [inputCode, setInputCode] = useState('');
+  const [activePromo, setActivePromo] = useState<Promo | null>(null);
+  const [promoError, setPromoError] = useState('');
+
+  const handleApplyPromo = () => {
+    setPromoError('');
+    const foundPromo = promos.find(p => p.code === inputCode.toUpperCase());
+    
+    if (!foundPromo) {
+      setPromoError('Invalid promo code.');
+      return;
+    }
+    if (!foundPromo.active) {
+      setPromoError('This promo code is no longer active.');
+      return;
+    }
+    setActivePromo(foundPromo);
+    setInputCode('');
+  };
+
+  const discount = activePromo 
+    ? (activePromo.type === 'percent' ? totalPrice * (activePromo.value / 100) : activePromo.value) 
+    : 0;
+
+  const discountedTotal = Math.max(0, totalPrice - discount);
+  const shipping = totalItems > 0 ? (discountedTotal > 150 ? 0 : 15) : 0;
+  const tax = discountedTotal * 0.08;
+  const finalTotal = discountedTotal + shipping + tax;
+
+  const handleCheckout = () => {
+    // Generate simulated order
+    const simulatedOrderId = 'ORD-' + Math.floor(Math.random() * 1000000);
+    addOrder({
+      id: simulatedOrderId,
+      date: new Date().toISOString(),
+      status: 'Pending',
+      customer: {
+        name: 'Guest User', // Mock simulated customer
+        email: 'guest@example.com'
+      },
+      items: cart.map(c => ({ id: c.id, name: c.name, price: c.price, quantity: 1 })),
+      total: finalTotal
+    });
+
+    alert(`Order Placed Successfully! (Simulation)\n\nOrder ID: ${simulatedOrderId}\nTotal: $${finalTotal.toFixed(2)}\n\nYou can track this from the Admin Panel!`);
+    clearCart();
+    navigate('/');
+  };
 
   if (cart.length === 0) {
     return (
@@ -88,7 +135,6 @@ export default function Cart() {
                     <div className="flex justify-between items-end">
                       <div className="flex items-center gap-4">
                         <span className="text-sm text-slate-500">Qty: 1</span>
-                        {/* Quantity controls could be added here */}
                       </div>
                       <p className="text-xl font-extrabold text-slate-900">${item.price.toFixed(2)}</p>
                     </div>
@@ -98,8 +144,8 @@ export default function Cart() {
             </AnimatePresence>
 
             <button
-              onClick={clearCart}
-              className="text-slate-400 hover:text-red-500 font-bold text-sm flex items-center gap-2 transition-colors px-4 py-2"
+               onClick={clearCart}
+               className="text-slate-400 hover:text-red-500 font-bold text-sm flex items-center gap-2 transition-colors px-4 py-2"
             >
               <Trash2 size={16} /> Clear Shopping Cart
             </button>
@@ -110,11 +156,39 @@ export default function Cart() {
             <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 sticky top-24 space-y-8">
               <h2 className="text-2xl font-extrabold text-slate-900">Order Summary</h2>
               
-              <div className="space-y-4">
+              {/* Promo Code System */}
+              <div className="space-y-3">
+                 <label className="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2"><Tag size={14} /> Add Promo Code</label>
+                 <div className="flex gap-2">
+                    <input 
+                      type="text" 
+                      placeholder="Enter code..." 
+                      value={inputCode} 
+                      onChange={e => setInputCode(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-amber-500 outline-none uppercase font-mono"
+                    />
+                    <button onClick={handleApplyPromo} className="px-4 py-3 bg-slate-900 text-white rounded-xl font-bold hover:bg-amber-800 transition-colors">Apply</button>
+                 </div>
+                 {promoError && <p className="text-xs text-red-500 font-bold">{promoError}</p>}
+                 {activePromo && (
+                    <div className="flex items-center justify-between p-3 bg-green-50 text-green-700 rounded-xl border border-green-200">
+                       <p className="text-sm font-bold flex items-center gap-2"><CheckCircle size={16}/> {activePromo.code} Applied</p>
+                       <button onClick={() => setActivePromo(null)} className="text-green-900 hover:opacity-70 text-sm font-bold">Remove</button>
+                    </div>
+                 )}
+              </div>
+
+              <div className="space-y-4 pt-4 border-t border-slate-100">
                 <div className="flex justify-between text-slate-600">
                   <span>Subtotal</span>
                   <span className="font-bold text-slate-900">${totalPrice.toFixed(2)}</span>
                 </div>
+                {activePromo && (
+                  <div className="flex justify-between text-green-600 font-bold">
+                    <span>Discount ({activePromo.code})</span>
+                    <span>-${discount.toFixed(2)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between text-slate-600">
                   <span>Shipping</span>
                   <span className="font-bold text-slate-900">
@@ -133,8 +207,8 @@ export default function Cart() {
                 </div>
               </div>
 
-              <button className="w-full py-5 bg-slate-900 text-white rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-amber-800 transition-all shadow-xl hover:shadow-amber-800/20 group">
-                Proceed to Checkout <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              <button onClick={handleCheckout} className="w-full py-5 bg-slate-900 text-white rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-amber-800 transition-all shadow-xl hover:shadow-amber-800/20 group">
+                Simulate Checkout <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </button>
 
               <div className="space-y-4 pt-4">

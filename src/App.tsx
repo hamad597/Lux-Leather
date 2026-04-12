@@ -2,9 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { CartProvider } from '@/src/context/CartContext';
-import Header from '@/src/components/layout/Header';
-import Footer from '@/src/components/layout/Footer';
-import CookieConsent from '@/src/components/layout/CookieConsent';
+import AppLayout from '@/src/components/layout/AppLayout';
 import Home from '@/src/pages/Home';
 import Blog from '@/src/pages/Blog';
 import Shop from '@/src/pages/Shop';
@@ -14,6 +12,7 @@ import Contact from '@/src/pages/Contact';
 import FAQ from '@/src/pages/FAQ';
 import { AuthProvider } from '@/src/context/AuthContext';
 import { ProductProvider } from '@/src/context/ProductContext';
+import { AdminProvider } from '@/src/context/AdminContext';
 import ProtectedRoute from '@/src/components/admin/ProtectedRoute';
 import AdminLogin from '@/src/pages/admin/AdminLogin';
 import AdminDashboard from '@/src/pages/admin/AdminDashboard';
@@ -41,13 +40,12 @@ export default function App() {
   return (
     <HelmetProvider>
       <AuthProvider>
-        <ProductProvider>
-          <CartProvider>
+        <AdminProvider>
+          <ProductProvider>
+            <CartProvider>
             <Router>
               <ScrollToTop />
-          <div className="min-h-screen flex flex-col bg-white font-sans antialiased">
-            <Header />
-            <main className="flex-grow">
+          <AppLayout>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/shop" element={<Shop />} />
@@ -84,13 +82,11 @@ export default function App() {
                 {/* Fallback for other routes */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
-            </main>
-            <Footer />
-            <CookieConsent />
-          </div>
+          </AppLayout>
             </Router>
           </CartProvider>
         </ProductProvider>
+        </AdminProvider>
       </AuthProvider>
     </HelmetProvider>
   );

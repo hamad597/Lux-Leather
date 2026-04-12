@@ -2,35 +2,12 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Star, Quote } from 'lucide-react';
 import { cn } from '@/src/lib/utils';
-
-const reviews = [
-  {
-    id: 1,
-    name: 'Sarah Johnson',
-    role: 'Verified Buyer',
-    content: 'The quality of the products is absolutely top-notch. I bought the leather watch and it exceeded my expectations. Fast shipping too!',
-    rating: 5,
-    avatar: 'https://i.pravatar.cc/150?u=sarah'
-  },
-  {
-    id: 2,
-    name: 'Michael Chen',
-    role: 'Tech Enthusiast',
-    content: 'LuxLeather has become my go-to for premium essentials. Their customer service is responsive and the aesthetic is just perfect.',
-    rating: 5,
-    avatar: 'https://i.pravatar.cc/150?u=michael'
-  },
-  {
-    id: 3,
-    name: 'Emma Williams',
-    role: 'Interior Designer',
-    content: 'I love the minimalist approach. Every item feels intentional and well-crafted. Highly recommend for anyone looking for quality.',
-    rating: 4,
-    avatar: 'https://i.pravatar.cc/150?u=emma'
-  }
-];
+import { useAdmin } from '@/src/context/AdminContext';
 
 export default function Reviews() {
+  const { reviews } = useAdmin();
+  const approvedReviews = reviews.filter(r => r.approved).slice(0, 3);
+  
   return (
     <section className="py-24 bg-[#1a1410] overflow-hidden relative">
       {/* Decorative background elements */}
@@ -47,7 +24,7 @@ export default function Reviews() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {reviews.map((review, idx) => (
+          {approvedReviews.map((review, idx) => (
             <motion.div
               key={review.id}
               initial={{ opacity: 0, y: 30 }}

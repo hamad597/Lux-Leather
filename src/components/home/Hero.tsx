@@ -2,8 +2,11 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, ShoppingBag } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useAdmin } from '@/src/context/AdminContext';
 
 export default function Hero() {
+  const { heroConfig } = useAdmin();
+
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-[#1a1410]">
       {/* Background Elements */}
@@ -22,15 +25,15 @@ export default function Hero() {
               <span className="animate-ping absolute inline-flex h-full w-2 rounded-full bg-amber-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
             </span>
-            Premium Handcrafted Leather
+            {heroConfig.ribbon}
           </div>
 
           <h1 className="text-5xl md:text-7xl font-extrabold text-white leading-tight tracking-tight">
-            Timeless <span className="text-amber-500 italic">Elegance</span> in Every Stitch
+            {heroConfig.title}
           </h1>
 
           <p className="text-lg text-slate-300 max-w-lg leading-relaxed">
-            Discover our exclusive collection of handcrafted leather jackets, shoes, and accessories. Experience the unmatched durability and sophisticated style of genuine full-grain leather.
+            {heroConfig.subtext}
           </p>
 
           <div className="flex flex-wrap gap-4 pt-4">
