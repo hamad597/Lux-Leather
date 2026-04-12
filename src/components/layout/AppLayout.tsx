@@ -11,7 +11,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col bg-white font-sans antialiased">
       {!isAdminRoute && <Header />}
-      <main className={`flex-grow ${isAdminRoute ? 'h-screen overflow-hidden' : ''}`}>
+      <main className="flex-grow">
         {children}
       </main>
       {!isAdminRoute && <Footer />}

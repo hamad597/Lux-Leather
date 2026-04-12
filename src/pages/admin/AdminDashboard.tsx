@@ -59,7 +59,7 @@ export default function AdminDashboard() {
     return (
       <button 
         onClick={() => setActiveTab(id)}
-        className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl font-medium transition-colors ${
+        className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl font-medium transition-all cursor-pointer ${
           active ? 'bg-amber-600/20 text-amber-500 border border-amber-500/20' : 'hover:bg-slate-800 text-slate-400 hover:text-white'
         }`}
       >
@@ -70,7 +70,7 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex">
+    <div className="h-screen bg-slate-50 flex overflow-hidden">
       {/* Sidebar */}
       <aside className="w-64 bg-slate-900 text-white flex flex-col pt-6 pb-4 shrink-0">
         <div className="px-6 mb-12">
@@ -87,7 +87,7 @@ export default function AdminDashboard() {
           {renderTabButton('settings', 'Site Settings', <Settings size={20} />)}
         </nav>
         <div className="px-4 mt-auto pt-4 border-t border-slate-800">
-          <button onClick={logout} className="flex items-center gap-3 w-full px-4 py-3 hover:bg-red-500/10 text-slate-400 hover:text-red-400 rounded-xl font-medium transition-colors group">
+          <button onClick={logout} className="flex items-center gap-3 w-full px-4 py-3 cursor-pointer hover:bg-red-500/10 text-slate-400 hover:text-red-400 rounded-xl font-medium transition-colors group">
             <LogOut size={20} className="group-hover:-translate-x-1 transition-transform" />
             Sign Out
           </button>
