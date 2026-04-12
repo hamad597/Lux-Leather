@@ -19,6 +19,8 @@ import Register from '@/src/pages/auth/Register';
 import Login from '@/src/pages/auth/Login';
 import AdminLogin from '@/src/pages/admin/AdminLogin';
 import AdminDashboard from '@/src/pages/admin/AdminDashboard';
+import AdminRedirect from '@/src/pages/admin/AdminRedirect';
+import AdminError from '@/src/pages/admin/AdminError';
 import ShippingPolicy from '@/src/pages/ShippingPolicy';
 import ReturnsExchanges from '@/src/pages/ReturnsExchanges';
 import LeatherCareGuide from '@/src/pages/LeatherCareGuide';
@@ -76,6 +78,8 @@ export default function App() {
                 
                 {/* Admin Routes */}
                 <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/admin/redirect" element={<AdminRedirect />} />
+                <Route path="/admin/error" element={<AdminError />} />
                 <Route path="/admin" element={
                   <ProtectedRoute>
                     <AdminDashboard />
