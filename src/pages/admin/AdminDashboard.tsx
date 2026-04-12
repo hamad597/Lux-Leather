@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { useAuth } from '@/src/context/AuthContext';
 import { useProducts, Product } from '@/src/context/ProductContext';
 import { useAdmin, Promo, HeroConfig, Review, Order } from '@/src/context/AdminContext';
-import { LogOut, Plus, Edit2, Trash2, Search, Settings, CheckCircle, Package, Star, MessageSquare, ShoppingCart, Tag, X, TrendingUp } from 'lucide-react';
+import { useCustomerAuth } from '@/src/context/CustomerAuthContext';
+import { LogOut, Plus, Edit2, Trash2, Search, Settings, CheckCircle, Package, Star, MessageSquare, ShoppingCart, Tag, X, TrendingUp, Users } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 export default function AdminDashboard() {
   const { logout } = useAuth();
+  const { allUsers } = useCustomerAuth();
   const { products, addProduct, updateProduct, deleteProduct, resetToDefaults } = useProducts();
   const { 
     orders, promos, heroConfig, reviews,
@@ -76,6 +78,7 @@ export default function AdminDashboard() {
         </div>
         <nav className="flex-1 space-y-2 px-4 overflow-y-auto">
           {renderTabButton('analytics', 'Analytics', <TrendingUp size={20} />)}
+          {renderTabButton('customers', 'Customers', <Users size={20} />)}
           {renderTabButton('orders', 'Orders', <ShoppingCart size={20} />)}
           {renderTabButton('products', 'Products', <Package size={20} />)}
           {renderTabButton('promos', 'Promo Codes', <Tag size={20} />)}
@@ -113,6 +116,47 @@ export default function AdminDashboard() {
                   <p className="text-4xl font-extrabold text-slate-900">{products.length}</p>
                 </div>
               </div>
+            </motion.div>
+          )}
+
+          {/* CUSTOMERS TAB */}
+          {activeTab === 'customers' && (
+            <motion.div initial={{opacity: 0, y: 10}} animate={{opacity: 1, y:0}}>
+              <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-2">Registered Customers</h1>
+              <p className="text-slate-500 mb-8">View all users who have signed up on the platform.</p>
+              
+              {allUsers.length === 0 ? (
+                <div className="text-center py-24 bg-white rounded-3xl border border-slate-100 border-dashed">
+                  <Users size={48} className="mx-auto text-slate-200 mb-4" />
+                  <p className="text-slate-500 font-medium">No customers have registered yet.</p>
+                </div>
+              ) : (
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                  <table className="w-full text-left">
+                    <thead className="bg-slate-50 border-b border-slate-100">
+                      <tr>
+                        <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider">User ID</th>
+                        <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider">Name</th>
+                        <th className="px-6 py-4 text-xs font-bold text-slate-400 uppercase tracking-wider">Joined Date</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {allUsers.map(user => (
+                        <tr key={user.id} className="hover:bg-slate-50">
+                          <td className="px-6 py-4 font-mono text-xs text-slate-400">{user.id}</td>
+                          <td className="px-6 py-4">
+                            <p className="font-bold text-slate-900">{user.name}</p>
+                            <p className="text-xs text-slate-500">{user.email}</p>
+                          </td>
+                          <td className="px-6 py-4 text-sm text-slate-500 font-medium whitespace-nowrap">
+                            {new Date(user.joinDate).toLocaleDateString()}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </motion.div>
           )}
 

@@ -5,6 +5,7 @@ import { Lock, User } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function AdminLogin() {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
   const { login, isAdmin } = useAuth();
@@ -19,7 +20,7 @@ export default function AdminLogin() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const success = login(password);
+    const success = login(email, password);
     if (success) {
       navigate('/admin/dashboard');
     } else {
@@ -50,17 +51,31 @@ export default function AdminLogin() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
+            <div className="space-y-4">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <User className="h-5 w-5 text-stone-400" />
+                </div>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="block w-full pl-11 pr-4 py-3 bg-black/20 border border-white/10 rounded-xl text-white placeholder-stone-400 focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all outline-none"
+                  placeholder="Admin Email"
+                  required
+                />
+              </div>
+
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <Lock className="h-5 w-5 text-stone-400" />
                 </div>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="block w-full pl-11 pr-4 py-3 bg-black/20 border border-white/10 rounded-xl text-white placeholder-stone-400 focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all outline-none"
-                  placeholder="Enter Passcode..."
+                  placeholder="Secure Passcode"
                   required
                 />
               </div>
@@ -70,7 +85,7 @@ export default function AdminLogin() {
                   animate={{ opacity: 1, x: 0 }} 
                   className="text-red-400 text-xs mt-2 ml-1"
                 >
-                  Incorrect passcode. Hint: admin123
+                  Invalid credentials.
                 </motion.p>
               )}
             </div>

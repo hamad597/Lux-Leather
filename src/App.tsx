@@ -10,10 +10,13 @@ import ProductDetail from '@/src/pages/ProductDetail';
 import Cart from '@/src/pages/Cart';
 import Contact from '@/src/pages/Contact';
 import FAQ from '@/src/pages/FAQ';
+import { CustomerAuthProvider } from '@/src/context/CustomerAuthContext';
 import { AuthProvider } from '@/src/context/AuthContext';
 import { ProductProvider } from '@/src/context/ProductContext';
 import { AdminProvider } from '@/src/context/AdminContext';
 import ProtectedRoute from '@/src/components/admin/ProtectedRoute';
+import Register from '@/src/pages/auth/Register';
+import Login from '@/src/pages/auth/Login';
 import AdminLogin from '@/src/pages/admin/AdminLogin';
 import AdminDashboard from '@/src/pages/admin/AdminDashboard';
 import ShippingPolicy from '@/src/pages/ShippingPolicy';
@@ -39,7 +42,8 @@ function ScrollToTop() {
 export default function App() {
   return (
     <HelmetProvider>
-      <AuthProvider>
+      <CustomerAuthProvider>
+        <AuthProvider>
         <AdminProvider>
           <ProductProvider>
             <CartProvider>
@@ -66,6 +70,10 @@ export default function App() {
                 <Route path="/redirect" element={<Redirecting />} />
                 <Route path="/error" element={<ErrorPage />} />
                 
+                {/* Customer Auth */}
+                <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+                
                 {/* Admin Routes */}
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route path="/admin" element={
@@ -88,6 +96,7 @@ export default function App() {
         </ProductProvider>
         </AdminProvider>
       </AuthProvider>
+      </CustomerAuthProvider>
     </HelmetProvider>
   );
 }

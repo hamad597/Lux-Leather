@@ -3,11 +3,13 @@ import { ShoppingCart, User, Search, Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '@/src/lib/utils';
 import { useCart } from '@/src/context/CartContext';
+import { useCustomerAuth } from '@/src/context/CustomerAuthContext';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { totalItems } = useCart();
+  const { currentUser, logout } = useCustomerAuth();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -66,12 +68,21 @@ export default function Header() {
           )} aria-label="Search">
             <Search size={20} />
           </button>
-          <Link to="/account" className={cn(
-            "p-2 transition-colors",
-            isScrolled ? "text-slate-700 hover:text-amber-800" : "text-slate-200 hover:text-amber-400"
-          )} aria-label="Account">
-            <User size={20} />
-          </Link>
+          
+          {currentUser ? (
+             <div className={cn("flex items-center gap-2 transition-colors font-bold text-sm", isScrolled ? "text-slate-700" : "text-white")}>
+                 <User size={18} /> {currentUser.name.split(' ')[0]}
+                 <button onClick={logout} className="ml-2 text-xs uppercase text-slate-400 hover:text-red-500">Out</button>
+             </div>
+          ) : (
+            <Link to="/login" className={cn(
+              "p-2 transition-colors",
+              isScrolled ? "text-slate-700 hover:text-amber-800" : "text-slate-200 hover:text-amber-400"
+            )} aria-label="Sign In">
+              <User size={20} />
+            </Link>
+          )}
+
           <Link to="/cart" className={cn(
             "p-2 transition-colors relative",
             isScrolled ? "text-slate-700 hover:text-amber-800" : "text-slate-200 hover:text-amber-400"

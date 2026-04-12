@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 
 interface AuthContextType {
   isAdmin: boolean;
-  login: (code: string) => boolean;
+  login: (email: string, code: string) => boolean;
   logout: () => void;
 }
 
@@ -19,9 +19,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const login = (code: string) => {
-    // Hardcoded simple generic admin password
-    if (code === 'admin123') {
+  const login = (email: string, code: string) => {
+    // Upgraded Secure Mock Verification
+    if (email.toLowerCase() === 'admin@luxleather.com' && code === 'LuxAdmin#2026') {
       setIsAdmin(true);
       localStorage.setItem('lux_auth_admin', 'true');
       return true;

@@ -5,10 +5,12 @@ import { Trash2, ShoppingBag, ArrowRight, ChevronLeft, CreditCard, ShieldCheck, 
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '@/src/context/CartContext';
 import { useAdmin, Promo } from '@/src/context/AdminContext';
+import { useCustomerAuth } from '@/src/context/CustomerAuthContext';
 
 export default function Cart() {
   const { cart, removeFromCart, clearCart, totalPrice, totalItems } = useCart();
   const { promos, addOrder } = useAdmin();
+  const { currentUser } = useCustomerAuth();
   const navigate = useNavigate();
 
   const [inputCode, setInputCode] = useState('');
@@ -41,6 +43,12 @@ export default function Cart() {
   const finalTotal = discountedTotal + shipping + tax;
 
   const handleCheckout = () => {
+    if (!currentUser) {
+      alert("Please Sign In or Register to proceed to checkout!");
+      navigate('/login');
+      return;
+    }
+
     // Generate simulated order
     const simulatedOrderId = 'ORD-' + Math.floor(Math.random() * 1000000);
     addOrder({
@@ -48,14 +56,14 @@ export default function Cart() {
       date: new Date().toISOString(),
       status: 'Pending',
       customer: {
-        name: 'Guest User', // Mock simulated customer
-        email: 'guest@example.com'
+        name: currentUser.name,
+        email: currentUser.email
       },
       items: cart.map(c => ({ id: c.id, name: c.name, price: c.price, quantity: 1 })),
       total: finalTotal
     });
 
-    alert(`Order Placed Successfully! (Simulation)\n\nOrder ID: ${simulatedOrderId}\nTotal: $${finalTotal.toFixed(2)}\n\nYou can track this from the Admin Panel!`);
+    alert(`Order Placed Successfully!\n\nOrder ID: ${simulatedOrderId}\nTotal: $${finalTotal.toFixed(2)}\n\nCheck your Orders in the Admin Panel!`);
     clearCart();
     navigate('/');
   };
