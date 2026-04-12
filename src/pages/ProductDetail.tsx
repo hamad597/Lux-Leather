@@ -3,13 +3,14 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'motion/react';
 import { Star, ShoppingCart, Heart, ChevronLeft, Shield, Truck, RotateCcw, Share2 } from 'lucide-react';
-import { products } from '@/src/data/products';
+import { useProducts } from '@/src/context/ProductContext';
 import { useCart } from '@/src/context/CartContext';
 
 export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
+  const { products } = useProducts();
   const [quantity, setQuantity] = useState(1);
 
   const product = products.find(p => p.id === Number(id));

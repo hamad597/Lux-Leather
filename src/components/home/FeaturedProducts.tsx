@@ -3,10 +3,11 @@ import { motion } from 'motion/react';
 import { Star, ShoppingCart, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useCart } from '@/src/context/CartContext';
-import { products } from '@/src/data/products';
+import { useProducts } from '@/src/context/ProductContext';
 
 export default function FeaturedProducts() {
   const { addToCart } = useCart();
+  const { products } = useProducts();
   const featuredProducts = products.filter(p => p.tag).slice(0, 8);
 
   return (

@@ -2,9 +2,10 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 
-import { products } from '@/src/data/products';
+import { useProducts } from '@/src/context/ProductContext';
 
 export default function NewArrivals() {
+  const { products } = useProducts();
   const newArrivals = products.filter(p => p.tag === 'New' || p.tag === 'New Arrival').slice(0, 3);
 
   return (

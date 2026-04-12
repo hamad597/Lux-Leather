@@ -12,6 +12,11 @@ import ProductDetail from '@/src/pages/ProductDetail';
 import Cart from '@/src/pages/Cart';
 import Contact from '@/src/pages/Contact';
 import FAQ from '@/src/pages/FAQ';
+import { AuthProvider } from '@/src/context/AuthContext';
+import { ProductProvider } from '@/src/context/ProductContext';
+import ProtectedRoute from '@/src/components/admin/ProtectedRoute';
+import AdminLogin from '@/src/pages/admin/AdminLogin';
+import AdminDashboard from '@/src/pages/admin/AdminDashboard';
 import ShippingPolicy from '@/src/pages/ShippingPolicy';
 import ReturnsExchanges from '@/src/pages/ReturnsExchanges';
 import LeatherCareGuide from '@/src/pages/LeatherCareGuide';
@@ -35,9 +40,11 @@ function ScrollToTop() {
 export default function App() {
   return (
     <HelmetProvider>
-      <CartProvider>
-        <Router>
-          <ScrollToTop />
+      <AuthProvider>
+        <ProductProvider>
+          <CartProvider>
+            <Router>
+              <ScrollToTop />
           <div className="min-h-screen flex flex-col bg-white font-sans antialiased">
             <Header />
             <main className="flex-grow">
@@ -60,6 +67,20 @@ export default function App() {
                 <Route path="/newsletter" element={<Newsletter />} />
                 <Route path="/redirect" element={<Redirecting />} />
                 <Route path="/error" element={<ErrorPage />} />
+                
+                {/* Admin Routes */}
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/admin" element={
+                  <ProtectedRoute>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                } />
+                <Route path="/admin/dashboard" element={
+                  <ProtectedRoute>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                } />
+                
                 {/* Fallback for other routes */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
@@ -67,8 +88,10 @@ export default function App() {
             <Footer />
             <CookieConsent />
           </div>
-        </Router>
-      </CartProvider>
+            </Router>
+          </CartProvider>
+        </ProductProvider>
+      </AuthProvider>
     </HelmetProvider>
   );
 }

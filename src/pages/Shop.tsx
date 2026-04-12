@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'motion/react';
 import { Filter, Search, ShoppingCart, Star, X } from 'lucide-react';
-import { products } from '@/src/data/products';
+import { useProducts } from '@/src/context/ProductContext';
 import { useCart } from '@/src/context/CartContext';
 import { Link, useParams } from 'react-router-dom';
 
@@ -13,6 +13,7 @@ export default function Shop() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const { addToCart } = useCart();
+  const { products } = useProducts();
 
   useEffect(() => {
     if (urlCategory && categories.includes(urlCategory)) {
@@ -29,7 +30,7 @@ export default function Shop() {
                           product.description.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory, searchQuery, products]);
 
   return (
     <div className="min-h-screen bg-slate-50 pt-24 pb-12">
