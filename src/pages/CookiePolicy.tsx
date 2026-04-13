@@ -1,13 +1,14 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Cookie, ShieldCheck, FileText, Settings } from 'lucide-react';
+import { siteConfig } from '../data/config';
 
 export default function CookiePolicy() {
   return (
     <>
       <Helmet>
-        <title>Cookie Policy | LuxLeather Premium Handcrafted Leather Goods</title>
-        <meta name="description" content="Learn about LuxLeather's cookie policy and how we use cookies to improve your browsing experience." />
+        <title>Cookie Policy | {siteConfig.name} Premium Handcrafted Leather Goods</title>
+        <meta name="description" content={`Learn about ${siteConfig.name}'s cookie policy and how we use cookies to improve your browsing experience.`} />
       </Helmet>
 
       <div className="pt-32 pb-24 bg-white">
@@ -55,7 +56,7 @@ export default function CookiePolicy() {
             <section className="bg-amber-50 p-8 rounded-3xl border border-amber-100">
               <h2 className="text-xl font-bold text-amber-900 mb-4">Contact Us</h2>
               <p className="text-sm text-amber-800 leading-relaxed">
-                If you have any questions or concerns about our cookie policy, please contact our concierge team at <strong>concierge@luxleather.com</strong>.
+                If you have any questions or concerns about our cookie policy, please contact our concierge team at <strong>{siteConfig.contact.email}</strong>.
               </p>
             </section>
           </div>

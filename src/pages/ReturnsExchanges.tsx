@@ -1,13 +1,14 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { RotateCcw, ShieldCheck, RefreshCw, AlertCircle } from 'lucide-react';
+import { siteConfig } from '../data/config';
 
 export default function ReturnsExchanges() {
   return (
     <>
       <Helmet>
-        <title>Returns & Exchanges | LuxLeather Premium Handcrafted Leather Goods</title>
-        <meta name="description" content="Learn about LuxLeather's returns and exchanges policy for our premium leather products. We offer a 30-day return window for unworn items." />
+        <title>Returns & Exchanges | {siteConfig.name} Premium Handcrafted Leather Goods</title>
+        <meta name="description" content={`Learn about ${siteConfig.name}'s returns and exchanges policy for our premium leather products. We offer a 30-day return window for unworn items.`} />
       </Helmet>
 
       <div className="pt-32 pb-24 bg-white">
@@ -28,7 +29,7 @@ export default function ReturnsExchanges() {
                 <ShieldCheck className="text-amber-800" size={24} /> 30-Day Return Policy
               </h2>
               <p className="text-slate-600 leading-relaxed">
-                We want you to be completely satisfied with your LuxLeather purchase. If for any reason you are not happy with your item, you may return it for a full refund or exchange within 30 days of receiving your order.
+                We want you to be completely satisfied with your {siteConfig.name} purchase. If for any reason you are not happy with your item, you may return it for a full refund or exchange within 30 days of receiving your order.
               </p>
             </section>
 
@@ -58,7 +59,7 @@ export default function ReturnsExchanges() {
             <section className="bg-amber-50 p-8 rounded-3xl border border-amber-100">
               <h2 className="text-xl font-bold text-amber-900 mb-4">How to Initiate a Return</h2>
               <p className="text-sm text-amber-800 leading-relaxed">
-                To start your return or exchange, please email our concierge team at <strong>concierge@luxleather.com</strong> with your order number and the reason for your return. We will provide you with further instructions and a return authorization number.
+                To start your return or exchange, please email our concierge team at <strong>{siteConfig.contact.email}</strong> with your order number and the reason for your return. We will provide you with further instructions and a return authorization number.
               </p>
             </section>
           </div>

@@ -2,13 +2,14 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { motion } from 'motion/react';
+import { siteConfig } from '../data/config';
 
 export default function Contact() {
   return (
     <>
       <Helmet>
-        <title>Contact Us | LuxLeather Premium Handcrafted Leather Goods</title>
-        <meta name="description" content="Get in touch with LuxLeather. Our concierge team is here to assist you with any inquiries about our handcrafted leather products." />
+        <title>Contact Us | {siteConfig.name} Premium Handcrafted Leather Goods</title>
+        <meta name="description" content={`Get in touch with ${siteConfig.name}. Our concierge team is here to assist you with any inquiries about our handcrafted leather products.`} />
       </Helmet>
 
       <div className="pt-32 pb-24 bg-white">
@@ -30,7 +31,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900 mb-1">Our Studio</h3>
-                    <p className="text-slate-600">789 Artisan Lane, Heritage District<br />Florence, Italy</p>
+                    <p className="text-slate-600">{siteConfig.contact.address}</p>
                   </div>
                 </div>
 
@@ -40,7 +41,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900 mb-1">Phone</h3>
-                    <p className="text-slate-600">+39 055 123 4567</p>
+                    <p className="text-slate-600">{siteConfig.contact.phone}</p>
                   </div>
                 </div>
 
@@ -50,7 +51,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900 mb-1">Email</h3>
-                    <p className="text-slate-600">concierge@luxleather.com</p>
+                    <p className="text-slate-600">{siteConfig.contact.email}</p>
                   </div>
                 </div>
               </div>

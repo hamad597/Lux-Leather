@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Mail, MapPin, Phone } from 'lucide-react';
+import { siteConfig } from '../../data/config';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -15,15 +16,15 @@ export default function Footer() {
               <div className="w-10 h-10 bg-amber-800 rounded-lg flex items-center justify-center text-amber-100 font-bold text-xl shadow-lg border border-amber-900/20">
                 L
               </div>
-              <span className="text-2xl font-bold text-white tracking-tight">LuxLeather</span>
+              <span className="text-2xl font-bold text-white tracking-tight">{siteConfig.name}</span>
             </Link>
             <p className="text-sm leading-relaxed text-slate-400 max-w-xs">
               Crafting timeless leather goods with passion and precision. Our commitment to quality ensures that every piece you own is a masterpiece of durability and style.
             </p>
             <div className="flex gap-5">
-              <a href="#" className="p-2 bg-slate-900 rounded-full hover:bg-amber-800 hover:text-white transition-all" aria-label="Facebook"><Facebook size={18} /></a>
-              <a href="#" className="p-2 bg-slate-900 rounded-full hover:bg-amber-800 hover:text-white transition-all" aria-label="Instagram"><Instagram size={18} /></a>
-              <a href="#" className="p-2 bg-slate-900 rounded-full hover:bg-amber-800 hover:text-white transition-all" aria-label="Twitter"><Twitter size={18} /></a>
+              <a href={siteConfig.social.facebook} className="p-2 bg-slate-900 rounded-full hover:bg-amber-800 hover:text-white transition-all" aria-label="Facebook"><Facebook size={18} /></a>
+              <a href={siteConfig.social.instagram} className="p-2 bg-slate-900 rounded-full hover:bg-amber-800 hover:text-white transition-all" aria-label="Instagram"><Instagram size={18} /></a>
+              <a href={siteConfig.social.twitter} className="p-2 bg-slate-900 rounded-full hover:bg-amber-800 hover:text-white transition-all" aria-label="Twitter"><Twitter size={18} /></a>
             </div>
           </div>
 
@@ -59,15 +60,15 @@ export default function Footer() {
             <ul className="space-y-5 text-sm">
               <li className="flex items-start gap-4">
                 <MapPin size={18} className="text-amber-800 shrink-0" />
-                <span className="text-slate-400">789 Artisan Lane, Heritage District, Florence, Italy</span>
+                <span className="text-slate-400">{siteConfig.contact.address}</span>
               </li>
               <li className="flex items-center gap-4">
                 <Phone size={18} className="text-amber-800 shrink-0" />
-                <span className="text-slate-400">+39 055 123 4567</span>
+                <span className="text-slate-400">{siteConfig.contact.phone}</span>
               </li>
               <li className="flex items-center gap-4">
                 <Mail size={18} className="text-amber-800 shrink-0" />
-                <span className="text-slate-400">concierge@luxleather.com</span>
+                <span className="text-slate-400">{siteConfig.contact.email}</span>
               </li>
             </ul>
           </div>
