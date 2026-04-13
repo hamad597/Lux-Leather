@@ -1,5 +1,5 @@
 import tailwindcss from '@tailwindcss/vite';
-import react from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react-swc';
 import path from 'path';
 import {defineConfig, loadEnv} from 'vite';
 
@@ -14,6 +14,9 @@ export default defineConfig(({mode}) => {
       alias: {
         '@': path.resolve(__dirname, '.'),
       },
+    },
+    optimizeDeps: {
+      include: ['lucide-react', 'motion', 'react-router-dom', 'react-helmet-async'],
     },
     server: {
       // HMR is disabled in AI Studio via DISABLE_HMR env var.
