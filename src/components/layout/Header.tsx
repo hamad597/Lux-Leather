@@ -46,63 +46,88 @@ export default function Header() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              to={link.href}
-              className={cn(
-                "text-sm font-semibold transition-colors uppercase tracking-wider",
-                isScrolled ? "text-slate-700 hover:text-amber-800" : "text-slate-200 hover:text-amber-400"
-              )}
-            >
-              {link.name}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.name}
+                to={link.href}
+                aria-current={isActive ? "page" : undefined}
+                className={cn(
+                  "text-sm font-semibold transition-colors uppercase tracking-wider focus-visible:ring-2 focus-visible:ring-amber-800 rounded-lg px-2 py-1",
+                  isScrolled 
+                    ? (isActive ? "text-amber-800" : "text-slate-700 hover:text-amber-800") 
+                    : (isActive ? "text-amber-400" : "text-slate-200 hover:text-amber-400")
+                )}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
         </div>
 
         {/* Icons */}
         <div className="flex items-center gap-4">
-          <Link to="/shop" className={cn(
-            "p-2 transition-colors",
-            isScrolled ? "text-slate-700 hover:text-amber-800" : "text-slate-200 hover:text-amber-400"
-          )} aria-label="Search">
+          <Link 
+            to="/shop" 
+            className={cn(
+              "p-2 transition-colors focus-visible:ring-2 focus-visible:ring-amber-800 rounded-full outline-none",
+              isScrolled ? "text-slate-700 hover:text-amber-800" : "text-slate-200 hover:text-amber-400"
+            )} 
+            aria-label="Search Collection"
+          >
             <Search size={20} />
           </Link>
           
           {currentUser ? (
              <div className={cn("flex items-center gap-2 transition-colors font-bold text-sm", isScrolled ? "text-slate-700" : "text-white")}>
                  <User size={18} /> {currentUser.name.split(' ')[0]}
-                 <button onClick={logout} className="ml-2 text-xs uppercase text-slate-400 hover:text-red-500">Out</button>
+                 <button 
+                   onClick={logout} 
+                   className="ml-2 text-xs uppercase text-slate-400 hover:text-red-500 focus-visible:ring-1 focus-visible:ring-red-500 rounded px-1 outline-none"
+                   aria-label="Log Out"
+                 >
+                   Out
+                 </button>
              </div>
           ) : (
-            <Link to="/login" className={cn(
-              "p-2 transition-colors",
-              isScrolled ? "text-slate-700 hover:text-amber-800" : "text-slate-200 hover:text-amber-400"
-            )} aria-label="Sign In">
+            <Link 
+              to="/login" 
+              className={cn(
+                "p-2 transition-colors focus-visible:ring-2 focus-visible:ring-amber-800 rounded-full outline-none",
+                isScrolled ? "text-slate-700 hover:text-amber-800" : "text-slate-200 hover:text-amber-400"
+              )} 
+              aria-label="Access Account"
+            >
               <User size={20} />
             </Link>
           )}
 
-          <Link to="/cart" className={cn(
-            "p-2 transition-colors relative",
-            isScrolled ? "text-slate-700 hover:text-amber-800" : "text-slate-200 hover:text-amber-400"
-          )} aria-label="Cart">
+          <Link 
+            to="/cart" 
+            className={cn(
+              "p-2 transition-colors relative focus-visible:ring-2 focus-visible:ring-amber-800 rounded-full outline-none",
+              isScrolled ? "text-slate-700 hover:text-amber-800" : "text-slate-200 hover:text-amber-400"
+            )} 
+            aria-label={`Shopping Cart, ${totalItems} items`}
+          >
             <ShoppingCart size={20} />
             {totalItems > 0 && (
-              <span className="absolute top-0 right-0 w-4 h-4 bg-amber-800 text-amber-100 text-[10px] flex items-center justify-center rounded-full">
+              <span className="absolute top-0 right-0 w-4 h-4 bg-amber-800 text-amber-100 text-[10px] flex items-center justify-center rounded-full pointer-events-none">
                 {totalItems}
               </span>
             )}
           </Link>
           <button
             className={cn(
-              "md:hidden p-2 transition-colors",
+              "md:hidden p-2 transition-colors focus-visible:ring-2 focus-visible:ring-amber-800 rounded-full outline-none",
               isScrolled ? "text-slate-600" : "text-white"
             )}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle Menu"
+            aria-label={isMobileMenuOpen ? "Close main menu" : "Open main menu"}
+            aria-expanded={isMobileMenuOpen}
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMobileMenuOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
           </button>
         </div>
       </nav>
@@ -115,7 +140,8 @@ export default function Header() {
               <Link
                 key={link.name}
                 to={link.href}
-                className="text-lg font-medium text-slate-900 py-2 border-b border-slate-50"
+                aria-current={pathname === link.href ? "page" : undefined}
+                className="text-lg font-medium text-slate-900 py-2 border-b border-slate-50 focus-visible:bg-slate-50 outline-none px-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.name}

@@ -91,10 +91,10 @@ export default function ProductDetail() {
                   {product.category}
                 </span>
                 <div className="flex items-center gap-4">
-                  <button className="p-2 text-slate-400 hover:text-amber-800 transition-colors" aria-label="Share">
+                  <button className="p-2 text-slate-400 hover:text-amber-800 transition-colors focus-visible:ring-2 focus-visible:ring-amber-800 rounded-full outline-none" aria-label="Share this product">
                     <Share2 size={20} />
                   </button>
-                  <button className="p-2 text-slate-400 hover:text-amber-800 transition-colors" aria-label="Add to Wishlist">
+                  <button className="p-2 text-slate-400 hover:text-amber-800 transition-colors focus-visible:ring-2 focus-visible:ring-amber-800 rounded-full outline-none" aria-label="Add to Wishlist">
                     <Heart size={20} />
                   </button>
                 </div>
@@ -103,7 +103,7 @@ export default function ProductDetail() {
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-1 text-amber-500">
                   {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={18} fill={i < Math.floor(product.rating) ? "currentColor" : "none"} />
+                    <Star key={i} size={18} fill={i < Math.floor(product.rating) ? "currentColor" : "none"} aria-hidden="true" />
                   ))}
                 </div>
                 <span className="text-sm font-bold text-slate-700">{product.rating} / 5.0</span>
@@ -121,14 +121,18 @@ export default function ProductDetail() {
                 <div className="flex items-center border border-slate-200 rounded-xl overflow-hidden">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="px-4 py-3 hover:bg-slate-50 transition-colors text-slate-600 font-bold"
+                    className="px-4 py-3 hover:bg-slate-50 transition-colors text-slate-600 font-bold focus-visible:bg-slate-100 outline-none"
+                    aria-label="Decrease quantity"
                   >
                     -
                   </button>
-                  <span className="px-6 py-3 font-bold text-slate-900 w-16 text-center">{quantity}</span>
+                  <span className="px-6 py-3 font-bold text-slate-900 w-16 text-center" aria-live="polite">
+                    <span className="sr-only">Quantity: </span>{quantity}
+                  </span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="px-4 py-3 hover:bg-slate-50 transition-colors text-slate-600 font-bold"
+                    className="px-4 py-3 hover:bg-slate-50 transition-colors text-slate-600 font-bold focus-visible:bg-slate-100 outline-none"
+                    aria-label="Increase quantity"
                   >
                     +
                   </button>
@@ -138,7 +142,8 @@ export default function ProductDetail() {
                     for (let i = 0; i < quantity; i++) addToCart(product);
                     navigate('/cart');
                   }}
-                  className="flex-1 py-4 bg-slate-900 text-white rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-amber-800 transition-all shadow-xl hover:shadow-amber-800/20"
+                  className="flex-1 py-4 bg-slate-900 text-white rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-amber-800 transition-all shadow-xl hover:shadow-amber-800/20 focus-visible:ring-4 focus-visible:ring-amber-900/30 outline-none"
+                  aria-label={`Add ${quantity} ${product.name} to cart`}
                 >
                   <ShoppingCart size={20} /> Add to Cart
                 </button>

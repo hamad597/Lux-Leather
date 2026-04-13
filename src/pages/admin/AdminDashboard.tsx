@@ -59,7 +59,8 @@ export default function AdminDashboard() {
     return (
       <button 
         onClick={() => setActiveTab(id)}
-        className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl font-medium transition-all cursor-pointer ${
+        aria-pressed={active}
+        className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl font-medium transition-all focus-visible:ring-2 focus-visible:ring-amber-500 outline-none ${
           active ? 'bg-amber-600/20 text-amber-500 border border-amber-500/20' : 'hover:bg-slate-800 text-slate-400 hover:text-white'
         }`}
       >
@@ -87,7 +88,11 @@ export default function AdminDashboard() {
           {renderTabButton('settings', 'Site Settings', <Settings size={20} />)}
         </nav>
         <div className="px-4 mt-auto pt-4 border-t border-slate-800">
-          <button onClick={logout} className="flex items-center gap-3 w-full px-4 py-3 cursor-pointer hover:bg-red-500/10 text-slate-400 hover:text-red-400 rounded-xl font-medium transition-colors group">
+          <button 
+            onClick={logout} 
+            className="flex items-center gap-3 w-full px-4 py-3 hover:bg-red-500/10 text-slate-400 hover:text-red-400 rounded-xl font-medium transition-colors group focus-visible:ring-2 focus-visible:ring-red-500 outline-none"
+            aria-label="Sign Out of Dashboard"
+          >
             <LogOut size={20} className="group-hover:-translate-x-1 transition-transform" />
             Sign Out
           </button>
@@ -268,10 +273,18 @@ export default function AdminDashboard() {
                         </td>
                         <td className="px-6 py-4 text-right">
                           <div className="flex items-center justify-end gap-2">
-                            <button onClick={() => setEditingProduct(product)} className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg">
+                            <button 
+                              onClick={() => setEditingProduct(product)} 
+                              className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg focus-visible:ring-2 focus-visible:ring-blue-500 outline-none"
+                              aria-label={`Edit ${product.name}`}
+                            >
                               <Edit2 size={18} />
                             </button>
-                            <button onClick={() => { if(confirm('Delete product?')) deleteProduct(product.id) }} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg">
+                            <button 
+                              onClick={() => { if(confirm(`Delete ${product.name}?`)) deleteProduct(product.id) }} 
+                              className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg focus-visible:ring-2 focus-visible:ring-red-500 outline-none"
+                              aria-label={`Delete ${product.name}`}
+                            >
                               <Trash2 size={18} />
                             </button>
                           </div>
@@ -305,7 +318,13 @@ export default function AdminDashboard() {
                   <div key={promo.code} className={`bg-white rounded-2xl p-6 border-2 transition-colors ${promo.active ? 'border-amber-500/50 shadow-md view-active' : 'border-slate-100 shadow-sm opacity-60'}`}>
                     <div className="flex justify-between items-start mb-4">
                       <h3 className="font-mono text-xl font-bold text-slate-900 tracking-widest">{promo.code}</h3>
-                      <button onClick={() => deletePromo(promo.code)} className="text-slate-300 hover:text-red-500"><X size={20}/></button>
+                      <button 
+                        onClick={() => deletePromo(promo.code)} 
+                        className="text-slate-300 hover:text-red-500 focus-visible:ring-2 focus-visible:ring-red-500 rounded outline-none"
+                        aria-label={`Delete promo code ${promo.code}`}
+                      >
+                        <X size={20}/>
+                      </button>
                     </div>
                     <p className="text-slate-500 font-medium mb-6">
                       Save {promo.type === 'percent' ? `${promo.value}%` : `$${promo.value}`}
@@ -416,7 +435,13 @@ export default function AdminDashboard() {
              <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="bg-white rounded-3xl shadow-2xl w-full max-w-2xl overflow-hidden">
                 <div className="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                    <h3 className="text-2xl font-extrabold text-slate-900">{isAddingProduct ? 'Add Product' : 'Edit Product'}</h3>
-                   <button onClick={() => { setEditingProduct(null); setIsAddingProduct(false); }} className="text-slate-400 hover:text-slate-600">✕</button>
+                   <button 
+                     onClick={() => { setEditingProduct(null); setIsAddingProduct(false); }} 
+                     className="text-slate-400 hover:text-slate-600 p-1 focus-visible:ring-2 focus-visible:ring-slate-400 rounded-lg outline-none"
+                     aria-label="Close product editor"
+                   >
+                     ✕
+                   </button>
                 </div>
                 <form onSubmit={handleSaveProduct} className="p-8 space-y-6">
                   <div className="grid grid-cols-2 gap-6">

@@ -96,7 +96,11 @@ export default function Cart() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-4 mb-12">
-          <button onClick={() => navigate(-1)} className="p-2 hover:bg-white rounded-full transition-colors text-slate-400 hover:text-slate-900">
+          <button 
+            onClick={() => navigate(-1)} 
+            className="p-2 hover:bg-white rounded-full transition-colors text-slate-400 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-amber-800 outline-none"
+            aria-label="Go back"
+          >
             <ChevronLeft size={24} />
           </button>
           <h1 className="text-4xl font-extrabold text-slate-900">Shopping Cart</h1>
@@ -134,8 +138,8 @@ export default function Cart() {
                       </div>
                       <button
                         onClick={() => removeFromCart(item.id)}
-                        className="p-2 text-slate-300 hover:text-red-500 transition-colors"
-                        aria-label="Remove item"
+                        className="p-2 text-slate-300 hover:text-red-500 transition-colors focus-visible:ring-2 focus-visible:ring-red-500 rounded-full outline-none"
+                        aria-label={`Remove ${item.name} from cart`}
                       >
                         <Trash2 size={20} />
                       </button>
@@ -166,16 +170,19 @@ export default function Cart() {
               
               {/* Promo Code System */}
               <div className="space-y-3">
-                 <label className="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2"><Tag size={14} /> Add Promo Code</label>
+                 <label htmlFor="promo-code" className="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                   <Tag size={14} /> Add Promo Code
+                 </label>
                  <div className="flex gap-2">
                     <input 
+                      id="promo-code"
                       type="text" 
                       placeholder="Enter code..." 
                       value={inputCode} 
                       onChange={e => setInputCode(e.target.value)}
                       className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-amber-500 outline-none uppercase font-mono"
                     />
-                    <button onClick={handleApplyPromo} className="px-4 py-3 bg-slate-900 text-white rounded-xl font-bold hover:bg-amber-800 transition-colors">Apply</button>
+                    <button onClick={handleApplyPromo} className="px-4 py-3 bg-slate-900 text-white rounded-xl font-bold hover:bg-amber-800 transition-colors focus-visible:ring-2 focus-visible:ring-amber-800 outline-none">Apply</button>
                  </div>
                  {promoError && <p className="text-xs text-red-500 font-bold">{promoError}</p>}
                  {activePromo && (
