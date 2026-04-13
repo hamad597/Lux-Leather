@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { ShoppingCart, User, Search, Menu, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/src/lib/utils';
 import { useCart } from '@/src/context/CartContext';
 import { useCustomerAuth } from '@/src/context/CustomerAuthContext';
 
 export default function Header() {
+  const { pathname } = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { totalItems } = useCart();
