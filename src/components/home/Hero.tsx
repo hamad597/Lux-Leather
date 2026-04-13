@@ -44,7 +44,7 @@ export default function Hero() {
               Shop Leather Collection <ArrowRight size={20} />
             </Link>
             <Link
-              to="/new-arrivals"
+              to="/shop"
               className="px-8 py-4 bg-white/10 text-white border border-white/20 rounded-xl font-bold flex items-center gap-2 hover:bg-white/20 transition-all backdrop-blur-sm"
             >
               View New Arrivals <ShoppingBag size={20} />

@@ -41,7 +41,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900 mb-1">Phone</h3>
-                    <p className="text-slate-600">{siteConfig.contact.phone}</p>
+                    <a href={`tel:${siteConfig.contact.phone}`} className="text-slate-600 hover:text-amber-800 transition-colors">{siteConfig.contact.phone}</a>
                   </div>
                 </div>
 
@@ -51,7 +51,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900 mb-1">Email</h3>
-                    <p className="text-slate-600">{siteConfig.contact.email}</p>
+                    <a href={`mailto:${siteConfig.contact.email}`} className="text-slate-600 hover:text-amber-800 transition-colors">{siteConfig.contact.email}</a>
                   </div>
                 </div>
               </div>

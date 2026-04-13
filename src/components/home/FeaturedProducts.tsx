@@ -37,26 +37,28 @@ export default function FeaturedProducts() {
               className="group relative"
             >
               <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-slate-100 mb-4 shadow-sm group-hover:shadow-md transition-shadow">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  referrerPolicy="no-referrer"
-                  loading="lazy"
-                />
+                <Link to={`/product/${product.id}`} className="absolute inset-0 z-0">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    referrerPolicy="no-referrer"
+                    loading="lazy"
+                  />
+                </Link>
                 {product.tag && (
-                  <div className="absolute top-4 left-4">
+                  <div className="absolute top-4 left-4 z-10 pointer-events-none">
                     <span className="px-3 py-1 bg-amber-800/90 backdrop-blur-sm text-amber-50 text-[10px] font-bold uppercase rounded-full shadow-sm">
                       {product.tag}
                     </span>
                   </div>
                 )}
-                <div className="absolute top-4 right-4 translate-x-12 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300">
+                <div className="absolute top-4 right-4 translate-x-12 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 z-10">
                   <button className="p-2 bg-white rounded-full shadow-lg hover:bg-amber-800 hover:text-white transition-colors" aria-label="Add to Wishlist">
                     <Heart size={18} />
                   </button>
                 </div>
-                <div className="absolute bottom-4 left-4 right-4 translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                <div className="absolute bottom-4 left-4 right-4 translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 z-20">
                   <button
                     onClick={() => addToCart(product)}
                     className="w-full py-3 bg-slate-900 text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-amber-800 transition-colors shadow-xl"

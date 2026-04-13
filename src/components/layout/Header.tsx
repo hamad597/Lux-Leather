@@ -62,12 +62,12 @@ export default function Header() {
 
         {/* Icons */}
         <div className="flex items-center gap-4">
-          <button className={cn(
+          <Link to="/shop" className={cn(
             "p-2 transition-colors",
             isScrolled ? "text-slate-700 hover:text-amber-800" : "text-slate-200 hover:text-amber-400"
           )} aria-label="Search">
             <Search size={20} />
-          </button>
+          </Link>
           
           {currentUser ? (
              <div className={cn("flex items-center gap-2 transition-colors font-bold text-sm", isScrolled ? "text-slate-700" : "text-white")}>

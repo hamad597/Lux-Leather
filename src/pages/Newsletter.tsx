@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'motion/react';
 import { Mail, CheckCircle2, ArrowRight, Sparkles, ShieldCheck, Gift, Bell } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Newsletter() {
   const [email, setEmail] = useState('');
@@ -166,7 +167,7 @@ export default function Newsletter() {
                       </form>
 
                       <p className="text-[10px] text-center text-slate-400 uppercase tracking-widest">
-                        By signing up, you agree to our <a href="/privacy" className="underline hover:text-amber-800">Privacy Policy</a>
+                        By signing up, you agree to our <Link to="/privacy" className="underline hover:text-amber-800">Privacy Policy</Link>
                       </p>
                     </motion.div>
                   ) : (

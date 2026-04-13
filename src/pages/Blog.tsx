@@ -82,13 +82,13 @@ export default function Blog() {
                     <span className="flex items-center gap-1 font-medium uppercase tracking-wider"><User size={14} /> {post.author}</span>
                   </div>
                   <h2 className="text-2xl font-bold text-slate-900 hover:text-amber-800 transition-colors leading-tight">
-                    <Link to={`/blog/${post.id}`}>{post.title}</Link>
+                    <Link to="/blog">{post.title}</Link>
                   </h2>
                   <p className="text-slate-600 text-sm leading-relaxed flex-grow">
                     {post.excerpt}
                   </p>
                   <Link
-                    to={`/blog/${post.id}`}
+                    to="/blog"
                     className="inline-flex items-center gap-2 text-amber-800 font-bold text-sm hover:gap-3 transition-all uppercase tracking-widest"
                   >
                     Read Article <ArrowRight size={16} />

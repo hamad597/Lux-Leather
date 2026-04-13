@@ -6,8 +6,8 @@ export const siteConfig = {
     email: 'usman@prosafeapperal.com',
   },
   social: {
-    facebook: '#',
-    instagram: '#',
-    twitter: '#',
+    facebook: 'https://facebook.com/luxleather',
+    instagram: 'https://instagram.com/luxleather',
+    twitter: 'https://twitter.com/luxleather',
   }
 };

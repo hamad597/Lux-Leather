@@ -64,11 +64,11 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-4">
                 <Phone size={18} className="text-amber-800 shrink-0" />
-                <span className="text-slate-400">{siteConfig.contact.phone}</span>
+                <a href={`tel:${siteConfig.contact.phone}`} className="text-slate-400 hover:text-amber-500 transition-colors">{siteConfig.contact.phone}</a>
               </li>
               <li className="flex items-center gap-4">
                 <Mail size={18} className="text-amber-800 shrink-0" />
-                <span className="text-slate-400">{siteConfig.contact.email}</span>
+                <a href={`mailto:${siteConfig.contact.email}`} className="text-slate-400 hover:text-amber-500 transition-colors">{siteConfig.contact.email}</a>
               </li>
             </ul>
           </div>
