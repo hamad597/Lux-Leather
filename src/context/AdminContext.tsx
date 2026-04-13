@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, useMemo, useCallback } from 'react';
 
 export interface Order {
   id: string;
@@ -95,67 +95,83 @@ export function AdminProvider({ children }: { children: ReactNode }) {
     setIsLoaded(true);
   }, []);
 
-  const saveState = (key: string, data: any) => {
+  const saveState = useCallback((key: string, data: any) => {
     localStorage.setItem(key, JSON.stringify(data));
-  };
+  }, []);
 
-  const updateHeroConfig = (config: HeroConfig) => {
+  const updateHeroConfig = useCallback((config: HeroConfig) => {
     setHeroConfig(config);
     saveState('lux_hero', config);
-  };
+  }, [saveState]);
 
-  const addOrder = (order: Order) => {
-    const newOrders = [order, ...orders];
-    setOrders(newOrders);
-    saveState('lux_orders', newOrders);
-  };
+  const addOrder = useCallback((order: Order) => {
+    setOrders(prev => {
+      const next = [order, ...prev];
+      saveState('lux_orders', next);
+      return next;
+    });
+  }, [saveState]);
 
-  const updateOrderStatus = (id: string, status: Order['status']) => {
-    const newOrders = orders.map(o => o.id === id ? { ...o, status } : o);
-    setOrders(newOrders);
-    saveState('lux_orders', newOrders);
-  };
+  const updateOrderStatus = useCallback((id: string, status: Order['status']) => {
+    setOrders(prev => {
+      const next = prev.map(o => o.id === id ? { ...o, status } : o);
+      saveState('lux_orders', next);
+      return next;
+    });
+  }, [saveState]);
 
-  const addPromo = (promo: Promo) => {
-    const newPromos = [...promos, promo];
-    setPromos(newPromos);
-    saveState('lux_promos', newPromos);
-  };
+  const addPromo = useCallback((promo: Promo) => {
+    setPromos(prev => {
+      const next = [...prev, promo];
+      saveState('lux_promos', next);
+      return next;
+    });
+  }, [saveState]);
 
-  const togglePromo = (code: string) => {
-    const newPromos = promos.map(p => p.code === code ? { ...p, active: !p.active } : p);
-    setPromos(newPromos);
-    saveState('lux_promos', newPromos);
-  };
+  const togglePromo = useCallback((code: string) => {
+    setPromos(prev => {
+      const next = prev.map(p => p.code === code ? { ...p, active: !p.active } : p);
+      saveState('lux_promos', next);
+      return next;
+    });
+  }, [saveState]);
 
-  const deletePromo = (code: string) => {
-    const newPromos = promos.filter(p => p.code !== code);
-    setPromos(newPromos);
-    saveState('lux_promos', newPromos);
-  };
+  const deletePromo = useCallback((code: string) => {
+    setPromos(prev => {
+      const next = prev.filter(p => p.code !== code);
+      saveState('lux_promos', next);
+      return next;
+    });
+  }, [saveState]);
 
-  const toggleReviewApproval = (id: number) => {
-    const newReviews = reviews.map(r => r.id === id ? { ...r, approved: !r.approved } : r);
-    setReviews(newReviews);
-    saveState('lux_reviews', newReviews);
-  };
+  const toggleReviewApproval = useCallback((id: number) => {
+    setReviews(prev => {
+      const next = prev.map(r => r.id === id ? { ...r, approved: !r.approved } : r);
+      saveState('lux_reviews', next);
+      return next;
+    });
+  }, [saveState]);
 
-  const addFakeReview = (review: Omit<Review, 'id' | 'approved'>) => {
-    const newId = reviews.length > 0 ? Math.max(...reviews.map(r => r.id)) + 1 : 1;
-    const newReviews = [{ ...review, id: newId, approved: false }, ...reviews];
-    setReviews(newReviews);
-    saveState('lux_reviews', newReviews);
-  };
+  const addFakeReview = useCallback((review: Omit<Review, 'id' | 'approved'>) => {
+    setReviews(prev => {
+      const newId = prev.length > 0 ? Math.max(...prev.map(r => r.id)) + 1 : 1;
+      const next = [{ ...review, id: newId, approved: false }, ...prev];
+      saveState('lux_reviews', next);
+      return next;
+    });
+  }, [saveState]);
+
+  const value = useMemo(() => ({
+    orders, promos, heroConfig, reviews,
+    updateHeroConfig, addOrder, updateOrderStatus,
+    addPromo, togglePromo, deletePromo,
+    toggleReviewApproval, addFakeReview
+  }), [orders, promos, heroConfig, reviews, updateHeroConfig, addOrder, updateOrderStatus, addPromo, togglePromo, deletePromo, toggleReviewApproval, addFakeReview]);
 
   if (!isLoaded) return null;
 
   return (
-    <AdminContext.Provider value={{
-      orders, promos, heroConfig, reviews,
-      updateHeroConfig, addOrder, updateOrderStatus,
-      addPromo, togglePromo, deletePromo,
-      toggleReviewApproval, addFakeReview
-    }}>
+    <AdminContext.Provider value={value}>
       {children}
     </AdminContext.Provider>
   );

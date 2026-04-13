@@ -57,12 +57,14 @@ export default function ProductDetail() {
             animate={{ opacity: 1, x: 0 }}
             className="space-y-6"
           >
-            <div className="aspect-[4/5] rounded-3xl overflow-hidden bg-slate-100 shadow-sm border border-slate-100">
+            <div className="aspect-[4/5] rounded-3xl overflow-hidden bg-slate-100 shadow-sm border border-slate-100 relative">
               <img
                 src={product.image}
                 alt={product.name}
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
+                decoding="async"
+                loading="eager"
               />
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">

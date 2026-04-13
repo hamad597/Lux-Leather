@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, useMemo, useCallback } from 'react';
 import { products as defaultProducts } from '@/src/data/products';
 
 export interface Product {
@@ -41,37 +41,50 @@ export function ProductProvider({ children }: { children: ReactNode }) {
     setIsLoaded(true);
   }, []);
 
-  const saveProducts = (newProducts: Product[]) => {
+  const saveProducts = useCallback((newProducts: Product[]) => {
     setProducts(newProducts);
     localStorage.setItem('lux_custom_products', JSON.stringify(newProducts));
-  };
+  }, []);
 
-  const addProduct = (product: Omit<Product, 'id'>) => {
-    const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
-    const newProducts = [...products, { ...product, id: newId }];
-    saveProducts(newProducts);
-  };
+  const addProduct = useCallback((product: Omit<Product, 'id'>) => {
+    setProducts(current => {
+      const newId = current.length > 0 ? Math.max(...current.map(p => p.id)) + 1 : 1;
+      const newProducts = [...current, { ...product, id: newId }];
+      localStorage.setItem('lux_custom_products', JSON.stringify(newProducts));
+      return newProducts;
+    });
+  }, []);
 
-  const updateProduct = (id: number, updatedFields: Partial<Product>) => {
-    const newProducts = products.map(p => p.id === id ? { ...p, ...updatedFields } : p);
-    saveProducts(newProducts);
-  };
+  const updateProduct = useCallback((id: number, updatedFields: Partial<Product>) => {
+    setProducts(current => {
+      const newProducts = current.map(p => p.id === id ? { ...p, ...updatedFields } : p);
+      localStorage.setItem('lux_custom_products', JSON.stringify(newProducts));
+      return newProducts;
+    });
+  }, []);
 
-  const deleteProduct = (id: number) => {
-    const newProducts = products.filter(p => p.id !== id);
-    saveProducts(newProducts);
-  };
+  const deleteProduct = useCallback((id: number) => {
+    setProducts(current => {
+      const newProducts = current.filter(p => p.id !== id);
+      localStorage.setItem('lux_custom_products', JSON.stringify(newProducts));
+      return newProducts;
+    });
+  }, []);
 
-  const resetToDefaults = () => {
+  const resetToDefaults = useCallback(() => {
     setProducts(defaultProducts);
     localStorage.removeItem('lux_custom_products');
-  };
+  }, []);
+
+  const value = useMemo(() => ({
+    products, addProduct, updateProduct, deleteProduct, resetToDefaults
+  }), [products, addProduct, updateProduct, deleteProduct, resetToDefaults]);
 
   // Prevent flicker before hydration
   if (!isLoaded) return null;
 
   return (
-    <ProductContext.Provider value={{ products, addProduct, updateProduct, deleteProduct, resetToDefaults }}>
+    <ProductContext.Provider value={value}>
       {children}
     </ProductContext.Provider>
   );
